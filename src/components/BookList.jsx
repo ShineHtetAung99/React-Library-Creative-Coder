@@ -19,7 +19,7 @@ export default function BookList() {
                         <Link to={`/books/${b.id}`} key={b.id}>
                             <div className="p-4 border border-1">
                                 <img src={book} alt="" />
-                                    <div>
+                                <div className='text-center'>
                                     <h1>{b.title}</h1>
                                     <p>{b.description}</p>
                                     <div className="flex flex-wrap">
