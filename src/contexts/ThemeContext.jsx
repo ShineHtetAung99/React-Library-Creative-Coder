@@ -14,11 +14,14 @@ const ThemeContextProvider = ({ children }) => {
     let [state, dispatch] = useReducer(ThemeReducer,{
         theme : 'light'
     })
-    let changeTheme = () => {
-        dispatch({type : "CHANGE_THEME", payload: 'dark'})
+
+    let changeTheme = (theme) => {
+        dispatch({type : "CHANGE_THEME", payload: theme})
     }
+
+    const isDark = state.theme == 'dark';
     return (
-        <ThemeContext.Provider value={{...state,changeTheme}}>
+        <ThemeContext.Provider value={{...state, changeTheme, isDark}}>
             {children}
         </ThemeContext.Provider>
     )

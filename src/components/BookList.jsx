@@ -2,6 +2,7 @@ import React from 'react'
 import book from '../assets/book.png';
 import useFetch from '../hooks/useFetch';
 import { Link, useLocation } from 'react-router-dom';
+import useTheme from '../hooks/useTheme';
 
 export default function BookList() {
     let location = useLocation();
@@ -13,6 +14,7 @@ export default function BookList() {
         return <p>{error}</p>
     }
 
+    let {isDark} = useTheme();
     return (
         <div>
             { loading && <p>Loading ... </p>}
@@ -20,7 +22,7 @@ export default function BookList() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 my-3">
                     {books.map((b) => (
                         <Link to={`/books/${b.id}`} key={b.id}>
-                            <div className="p-4 border border-1">
+                            <div className={`p-4 border border-1 min-h-[420px] ${isDark ? 'bg-dcard border-primary text-white' : ''}`}>
                                 <img src={book} alt="" />
                                 <div className='text-center'>
                                     <h1>{b.title}</h1>
