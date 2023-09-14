@@ -3,7 +3,8 @@ import book from '../assets/book.png';
 import { Link, useLocation } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import { db } from '../firebase';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, orderBy, query } from 'firebase/firestore';
+import trash from '../assets/trash.svg'
 
 export default function BookList() {
     let location = useLocation();
@@ -13,6 +14,14 @@ export default function BookList() {
     let [error, setError] = useState('');
     let [loading, setLoading] = useState(false);
     let [books, setBooks] = useState([]);
+
+    let deleteBook = async (e,id) => {
+        e.preventDefault()
+        let ref = doc(db,'books',id);
+        await deleteDoc(ref);
+        setBooks(prev => prev.filter(b => b.id != id))
+
+    }
     
     useEffect(function() {
         setLoading(true)
@@ -52,10 +61,15 @@ export default function BookList() {
                                 <div className='text-center'>
                                     <h1>{b.title}</h1>
                                     <p>{b.description}</p>
-                                    <div className="flex flex-wrap">
-                                        {b.categories.map(c => (
-                                        <span className="mx-1 my-1 text-white rounded-full px-2 py-1 text-sm bg-blue-500" key={c}>{c}</span>
-                                        ))}
+                                    <div className="flex flex-wrap justify-between items-center">
+                                        <div>
+                                            {b.categories.map(c => (
+                                            <span className="mx-1 my-1 text-white rounded-full px-2 py-1 text-sm bg-blue-500" key={c}>{c}</span>
+                                            ))}
+                                        </div>
+                                        <div onClick={(e) => deleteBook(e,b.id)}>
+                                            <img src={trash} alt="" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
