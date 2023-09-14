@@ -3,8 +3,9 @@ import book from '../assets/book.png';
 import { Link, useLocation } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 import { db } from '../firebase';
-import { collection, deleteDoc, doc, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
 import trash from '../assets/trash.svg'
+import edit from '../assets/pencil.svg'
 
 export default function BookList() {
     let location = useLocation();
@@ -19,15 +20,13 @@ export default function BookList() {
         e.preventDefault()
         let ref = doc(db,'books',id);
         await deleteDoc(ref);
-        setBooks(prev => prev.filter(b => b.id != id))
-
     }
     
     useEffect(function() {
         setLoading(true)
         let ref = collection(db,'books');
         let q = query(ref,orderBy('date','desc'));
-        getDocs(q).then(docs => {
+        onSnapshot(q, docs => {
             if (docs.empty) {
                 setError('No Documents Found');
                 setLoading(false)
@@ -67,8 +66,9 @@ export default function BookList() {
                                             <span className="mx-1 my-1 text-white rounded-full px-2 py-1 text-sm bg-blue-500" key={c}>{c}</span>
                                             ))}
                                         </div>
-                                        <div onClick={(e) => deleteBook(e,b.id)}>
-                                            <img src={trash} alt="" />
+                                        <div className='flex space-x-3 items-center'>
+                                            <Link to={`/edit/${b.id}`}><img src={edit} alt="" /></Link>
+                                            <img src={trash} alt="" onClick={(e) => deleteBook(e,b.id)} />
                                         </div>
                                     </div>
                                 </div>
