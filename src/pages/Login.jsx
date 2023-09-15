@@ -12,7 +12,9 @@ export default function Login() {
     let login = async (e) => {
         e.preventDefault();
         let user = await signIn(email,password)
-        navigate('/')
+        if (user) {
+            navigate('/')
+        }
     }
 
     return (

@@ -1,13 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import {  RouterProvider } from 'react-router-dom'
-import router from './router'
 import { ThemeContextProvider } from './contexts/ThemeContext'
-
+import AuthContextProvider from './contexts/AuthContext'
+import Router from './router';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <ThemeContextProvider>
-    <RouterProvider router={router} />
-  </ThemeContextProvider>
+  <AuthContextProvider>
+    <ThemeContextProvider>
+      <Router />
+    </ThemeContextProvider>
+  </AuthContextProvider>
 )
