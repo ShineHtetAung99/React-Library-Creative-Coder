@@ -1,34 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import bookImg from '../assets/book.png';
 import useTheme from '../hooks/useTheme';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase';
+import useFirestore from '../hooks/useFirestore';
 
 export default function BookDetail() {
     let { id } = useParams();
     let {isDark} = useTheme();
 
-    let [error, setError] = useState('');
-    let [loading, setLoading] = useState(false);
-    let [book, setBook] = useState(null);
+    let {getDocument} = useFirestore();
+    let {error,loading,data : book} = getDocument('books',id)
 
-    useEffect(() => {
-        setLoading(true)
-        let ref = doc(db,'books',id);
-        onSnapshot(ref, doc => {
-            if (doc.exists()) {
-                let book = {id : doc.id, ...doc.data()};
-                setBook(book);
-                setLoading(false)
-                setError('')
-            } else {
-                setError('No Document Found')
-                setLoading(false)
-            }
-            
-        })
-    },[id])
+    
 
     return (
         <>
