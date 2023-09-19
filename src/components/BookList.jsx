@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import book from '../assets/book.png';
 import { Link, useLocation } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 
@@ -38,7 +37,7 @@ export default function BookList() {
                     {books.map((b) => (
                         <Link to={`/books/${b.id}`} key={b.id}>
                             <div className={`p-4 border border-1 min-h-[420px] ${isDark ? 'bg-dcard border-primary text-white' : ''}`}>
-                                <img src={book} alt="" />
+                                <img src={b.cover} alt="" />
                                 <div className='text-center'>
                                     <h1>{b.title}</h1>
                                     <p>{b.description}</p>
