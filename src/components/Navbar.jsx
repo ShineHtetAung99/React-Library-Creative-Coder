@@ -52,8 +52,8 @@ export default function Navbar() {
               </svg>
               <span className='hidden md:block'>Create book</span>
               </Link>
-            <div className='w-11'>
-              <img src='https://assets.bitdegree.org/online-learning-platforms/storage/media/2018/08/what-is-a-web-developer.jpg' className='w-full rounded-full' />
+            <div>
+              <img src='https://assets.bitdegree.org/online-learning-platforms/storage/media/2018/08/what-is-a-web-developer.jpg' className='w-12 h-12 rounded-full' />
             </div>
             <div className='cursor-pointer'>
               {isDark && <img src={lightIcon} alt="" className='w-8' onClick={() => changeTheme('light')} />}
