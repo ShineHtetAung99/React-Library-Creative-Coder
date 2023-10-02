@@ -5,9 +5,11 @@ import moment from 'moment/moment';
 import trashIcon from '../assets/trash.svg';
 import pencilIcon from '../assets/pencil.svg';
 import NoteForm from './NoteForm';
+import useTheme from '../hooks/useTheme';
 
 export default function NoteList() {
 
+    let { isDark } = useTheme();
     let { id } = useParams();
     let { getCollection, deleteDocument } = useFirestore();
     let { error, data: notes, loading } = getCollection('notes', ['bookUid', '==', id]);
@@ -19,12 +21,12 @@ export default function NoteList() {
     return (
         !! notes.length && (
             notes.map(note => (
-                <div className='border-2 shadow-md p-3 my-3' key={note.id}>
+                <div className={`border-2 shadow-md p-3 my-3 ${isDark ? 'text-white border-primary' : ''}`} key={note.id}>
                     <div className='flex space-x-3 justify-between'>
                         <div>
                             <img src="https://assets.bitdegree.org/online-learning-platforms/storage/media/2018/08/what-is-a-web-developer.jpg" className='w-12 h-12 rounded-full' alt="" />
                             <div>
-                                <h3>Shine Htet A</h3>
+                                <h3>Shine Htet Aung</h3>
                                 <div className='text-gray-400'>{moment(note?.date?.seconds * 1000).fromNow()}</div>
                             </div>
                         </div>

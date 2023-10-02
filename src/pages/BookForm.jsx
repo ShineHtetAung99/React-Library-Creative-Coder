@@ -140,9 +140,9 @@ export default function Create() {
                 </div>
                 <div className="w-full px-3 my-3">
                     <label className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ${isDark ? 'text-white' : ''}`} htmlFor="grid-password">
-                        Book Title
+                        Book Cover
                     </label>
-                    <input type='file' name='' id='' onChange={handlePhotoChange} />
+                    <input className={`${isDark ? 'text-white' : ''}`} type='file' name='' id='' onChange={handlePhotoChange} />
                     {!!preview && <img src={preview} alt="" className='py-3' width={500} height={500} />}
                 </div>
                 {/* create book */}
