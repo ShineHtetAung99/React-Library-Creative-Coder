@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useTheme from '../hooks/useTheme';
 
 import trash from '../assets/trash.svg'
@@ -9,13 +9,17 @@ import { AuthContext } from '../contexts/AuthContext';
 
 export default function BookList() {
     let location = useLocation();
+    let navigate = useNavigate();
     let params = new URLSearchParams(location.search);
     let search = params.get('search');
 
     let { getCollection,deleteDocument } = useFirestore();
 
     let {user} = useContext(AuthContext);
-    let {error,data : books,loading} = getCollection('books',['uid','==',user.uid]);
+    let { error, data: books, loading } = getCollection('books', ['uid', '==', user.uid], {
+        field: 'title',
+        value: search
+    });
 
     let deleteBook = async (e,id) => {
         e.preventDefault()
@@ -48,7 +52,10 @@ export default function BookList() {
                                             ))}
                                         </div>
                                         <div className='flex space-x-3 items-center'>
-                                            <Link to={`/edit/${b.id}`}><img src={edit} alt="" /></Link>
+                                            <img src={edit} onClick={(e) => {
+                                                e.preventDefault();
+                                                navigate(`/edit/${b.id}`);
+                                            }} alt="" />
                                             <img src={trash} alt="" onClick={(e) => deleteBook(e,b.id)} />
                                         </div>
                                     </div>
